@@ -117,6 +117,8 @@ public class SpeechTexter {
                     commandStr= "end"; iForward = 2; break;
                 case "programı durdur":
                     commandStr = ""; iForward = 2; TypeFromSpeech.isPause = true; soundAlert("pause");break;
+                case "programı başlat":
+                    commandStr= ""; iForward = 2; TypeFromSpeech.isPause = false; soundAlert("start");break;
 
             }
         }
@@ -148,6 +150,16 @@ public class SpeechTexter {
                     commandStr = "end"; iForward = 3; break;
                 case "yazmaya devam et":
                     commandStr= ""; iForward = 3; TypeFromSpeech.isPause = false; soundAlert("start");break;
+
+            }
+        }
+
+        if (kelimeler.length > i+3) {
+
+            switch (kelimeler[i].concat(" ").concat(kelimeler[i+1]).concat(" ").concat(kelimeler[i+2])
+                                                .concat(" ").concat(kelimeler[i+3])) {                    // dört kelimelik komutlar
+                case "for next döngüsü oluştur":
+                    commandStr = "{Enter}for (i=0; i<  ; i++){}" ; iForward = 4; break;
 
             }
         }
@@ -203,6 +215,8 @@ public class SpeechTexter {
                 commandKeyboard = "^{End}"; break;
             case "ctrl+z":
                 commandKeyboard = "^{z}"; break;
+            case "ctrl+y":
+                commandKeyboard = "^{y}"; break;
             case "equals":
                 commandKeyboard = " = "; break;
         }
