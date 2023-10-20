@@ -11,8 +11,13 @@ public class TypeFromSpeech {
     private static _SpeechTextPage sp = new _SpeechTextPage();
     private static int iForward = 0;
     private static String commandStr = "";
-    private static OperationMap opM = new OperationMap(iForward,commandStr);
+    private static boolean isSpecial = false;
+    private static boolean isUpperCase = true;
+    private static boolean isAddBefore = false;
+    private static boolean isAddAfter = true;
+    private static boolean isUpTomorrow = false;
     private static int n;
+    private static OperationMap opM = new OperationMap(iForward, commandStr, isSpecial, isUpperCase, isAddBefore, isAddAfter, isUpTomorrow);
 
 
     public static void main(String[] args) {
@@ -45,13 +50,19 @@ public class TypeFromSpeech {
         iForward = 0;
 
         for (int i = 0; i < n; i++) {
+
             opM = SpeechTexter.operationKey(kelimeler, opM, i);
+
             iForward = opM.getiForward();
             commandStr = opM.getComStr();
 
             putIntoWords(commandStr);
             i += iForward;
+
+            opM.setIsSpecial(false);
+            opM.setIsUpperCase(false);
         }
+
     }
 
     private static void putIntoWords(String text) {
@@ -70,6 +81,5 @@ public class TypeFromSpeech {
             }
         }
     }
-
 
 }

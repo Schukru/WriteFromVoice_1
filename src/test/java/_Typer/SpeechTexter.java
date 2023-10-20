@@ -15,6 +15,11 @@ public class SpeechTexter {
 
     static int iForward = 0;
     static String commandStr = "";
+    static boolean isSpecial = false;
+    static boolean isUpperCase = false;
+    static boolean isAddBefore = false;
+    static boolean isAddAfter = true;
+    static boolean isUpTomorrow = false;
     private static _SpeechTextPage sp = new _SpeechTextPage();
     private static String longText;
     private static Robot robot;
@@ -64,13 +69,25 @@ public class SpeechTexter {
 
         iForward = 0;
         commandStr = kelimeler[i];
+        isSpecial = false;
+        isUpperCase = opM.GetIsUpperCase();
+        isAddBefore = opM.GetIsAddBefore();
+        isAddAfter = opM.GetIsAddAfter();
+        isUpTomorrow = opM.GetIsUpTomorrow();
 
-          switch (kelimeler[i]){                                    // tek kelimelik komutlar
+        if (isUpTomorrow) {
+            isUpperCase = true;
+            isUpTomorrow = false;
+        }
+
+          switch (kelimeler[i]){                                    // tek kelimelik komutlar kontrol edilecek
             case "enter" :
-                commandStr= "enter"; iForward = 1; break;
+                commandStr= "enter"; iForward = 1; isUpTomorrow = true; break;
+            case "nokta" :
+            case "." :
+                commandStr= "."; iForward = 1; isUpTomorrow = true; isAddBefore = false; break;
             case "backspace":
                 commandStr= "backspace"; iForward = 1; break;
-            case "boşluk":
             case "space":
                 commandStr= "space"; iForward = 1; break;
             case "sekme":
@@ -85,11 +102,11 @@ public class SpeechTexter {
                 commandStr= "equals"; iForward = 1; break;
         }
 
-        if (kelimeler.length > i+1) {
+        if (kelimeler.length > i+1) {                  // iki kelimelik komutlar kontrol edilecek
 
-            switch (kelimeler[i].concat(" ").concat(kelimeler[i+1])){         // iki kelimelik komutlar
+            switch (kelimeler[i].concat(" ").concat(kelimeler[i+1])){
                 case "satır sonu" :
-                    commandStr= "enter"; iForward = 2; break;
+                    commandStr= "enter"; iForward = 2; isUpTomorrow = true; break;
                 case "boşluk bırak":
                     commandStr= "space"; iForward = 2; break;
                 case "sağa git":
@@ -106,6 +123,7 @@ public class SpeechTexter {
                 case "geri gel":
                     commandStr= "left"; iForward = 2; break;
                 case "back space":
+                case "geri sil":
                     commandStr= "backspace"; iForward = 2; break;
                 case "ileri al":
                     commandStr= "ctrl+y"; iForward = 2; break;
@@ -123,41 +141,53 @@ public class SpeechTexter {
             }
         }
 
-        if (kelimeler.length > i+2) {
+        if (kelimeler.length > i+2) {                    // üç kelimelik komutlar kontrol edilecek
 
-            switch (kelimeler[i].concat(" ").concat(kelimeler[i+1]).concat(" ").concat(kelimeler[i+2])) {             // üç kelimelik komutlar
+            switch (kelimeler[i].concat(" ").concat(kelimeler[i+1]).concat(" ").concat(kelimeler[i+2])) {
+                case "büyük harfle başla":
+                    commandStr = ""; iForward = 2; isUpTomorrow = true; break;
+                case "küçük harfle başla":
+                    commandStr = ""; iForward = 2; isUpTomorrow = false; break;
                 case "bir geri gel":
                 case "bi geri gel":
                     commandStr = "left" ; iForward = 3; break;
                 case "bir yukarı çık":
                 case "bir yukarıya çık":
                 case "bir üste çık":
+                case "bir yukarı gel":
+                case "bir yukarıya gel":
+                case "bir üste gel":
                     commandStr = "up"; iForward = 3; break;
                 case "bir aşağıya in":
                 case "bir aşağı in":
                     commandStr= "down"; iForward = 3; break;
                 case "en üste gel":
+                case "en üste git":
                 case "en başa git":
+                case "en başa gel":
                     commandStr = "ctrl+home"; iForward = 3; break;
                 case "en sona git":
                     commandStr = "ctrl+end"; iForward = 3; break;
                 case "satır başı yap":
-                    commandStr = "enter"; iForward = 3; break;
+                    commandStr = "enter"; iForward = 3; isUpTomorrow = true; break;
                 case "satır başına git":
                     commandStr = "home"; iForward = 3; break;
                 case "satır sonuna git":
                 case "en sonuna git":
                     commandStr = "end"; iForward = 3; break;
+                case "aktif sayfayı kapat":
+                   commandStr = "ctrl+f4"; iForward = 3; break;
+                case "aktif programı kapat":
+                    commandStr = "alt+f4"; iForward = 3; break;
                 case "yazmaya devam et":
                     commandStr= ""; iForward = 3; TypeFromSpeech.isPause = false; soundAlert("start");break;
-
             }
         }
 
-        if (kelimeler.length > i+3) {
+        if (kelimeler.length > i+3) {                   // dört kelimelik komutlar kontrol edilecek
 
             switch (kelimeler[i].concat(" ").concat(kelimeler[i+1]).concat(" ").concat(kelimeler[i+2])
-                                                .concat(" ").concat(kelimeler[i+3])) {                    // dört kelimelik komutlar
+                                                .concat(" ").concat(kelimeler[i+3])) {
                 case "for next döngüsü oluştur":
                     commandStr = "{Enter}for (i=0; i<  ; i++){}" ; iForward = 4; break;
 
@@ -166,19 +196,40 @@ public class SpeechTexter {
 
         keyboardStr = putIntoKeyboard(commandStr);
 
-        if (commandStr.equals(keyboardStr)){   // eğer bir komut değeri değilse
-            keyboardStr = keyboardStr.concat(" ");
+        if (isSpecial) {
+            isAddBefore = false;
+            isAddAfter = false;
+        }
+        else {                         // eğer yazdırılacak ifade özel komut değilse
+
+            isAddAfter = true;
+
+           if (isUpperCase & !keyboardStr.isEmpty()) {
+                keyboardStr = keyboardStr.substring(0, 1).toUpperCase() + keyboardStr.substring(1);
+                isUpperCase = false;
+           }
+
+            if (isAddBefore){                     // ifadenin öncesine boşluk koy
+                keyboardStr = (keyboardStr.isEmpty()) ? "" : " " + keyboardStr;
+            }
+
+            isAddBefore = isAddAfter;   // bir sonraki boşluk durumuna güncelle
         }
 
         opM.setiForward(iForward);
         opM.setComStr(keyboardStr);
+        opM.setIsSpecial(isSpecial);
+        opM.setIsUpperCase(isUpperCase);
+        opM.setIsAddBefore(isAddBefore);
+        opM.setIsAddAfter(isAddAfter);
+        opM.setIsUpTomorrow(isUpTomorrow);
 
         return opM;
     }
 
     public static String putIntoKeyboard(String commandStr){
 
-        commandKeyboard = commandStr;
+        commandKeyboard = commandStr;                            //  Ctrl (^), Alt (!), Shift (+) ve Win (#)
 
         switch (commandStr){                                    // klavye komutunu öğren
             case "enter" :
@@ -217,10 +268,21 @@ public class SpeechTexter {
                 commandKeyboard = "^{z}"; break;
             case "ctrl+y":
                 commandKeyboard = "^{y}"; break;
+            case "ctrl+f4":
+                commandKeyboard = "^{F4}"; break;
+            case "alt+f4":
+                commandKeyboard = "!{F4}"; break;
             case "equals":
                 commandKeyboard = " = "; break;
+            case "main":
+                commandKeyboard = "main{Enter}"; break;
+            case "print":
+                commandKeyboard = "soutv{Enter}"; break;
+            default:
+                return commandKeyboard;
         }
 
+        isSpecial = true;
         return commandKeyboard;
     }
 
