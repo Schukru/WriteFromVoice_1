@@ -20,7 +20,7 @@ public class SpeechTexter {
     static boolean isAddBefore = false;
     static boolean isAddAfter = true;
     static boolean isUpTomorrow = false;
-    private static _SpeechTextPage sp = new _SpeechTextPage();
+    private static SpeechTextPage sp = new SpeechTextPage();
     private static String longText;
     private static Robot robot;
     private static String keyboardStr = "";
@@ -134,9 +134,9 @@ public class SpeechTexter {
                 case "sona git":
                     commandStr= "end"; iForward = 2; break;
                 case "programı durdur":
-                    commandStr = ""; iForward = 2; TypeFromSpeech.isPause = true; soundAlert("pause");break;
+                    commandStr = ""; iForward = 2; _TypeFromSpeech.isPause = true; soundAlert("pause");break;
                 case "programı başlat":
-                    commandStr= ""; iForward = 2; TypeFromSpeech.isPause = false; soundAlert("start");break;
+                    commandStr= ""; iForward = 2; _TypeFromSpeech.isPause = false; soundAlert("start");break;
 
             }
         }
@@ -180,7 +180,7 @@ public class SpeechTexter {
                 case "aktif programı kapat":
                     commandStr = "alt+f4"; iForward = 3; break;
                 case "yazmaya devam et":
-                    commandStr= ""; iForward = 3; TypeFromSpeech.isPause = false; soundAlert("start");break;
+                    commandStr= ""; iForward = 3; _TypeFromSpeech.isPause = false; soundAlert("start");break;
             }
         }
 

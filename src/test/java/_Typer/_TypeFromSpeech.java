@@ -5,10 +5,10 @@ import Utils.MyUtils;
 
 import java.io.IOException;
 
-public class TypeFromSpeech {
+public class _TypeFromSpeech {
 
     public static boolean isPause = false;
-    private static _SpeechTextPage sp = new _SpeechTextPage();
+    private static SpeechTextPage sp = new SpeechTextPage();
     private static int iForward = 0;
     private static String commandStr = "";
     private static boolean isSpecial = false;
@@ -70,7 +70,7 @@ public class TypeFromSpeech {
         String autoHotKeyPath = "C:\\Program Files\\AutoHotkey\\v2\\autohotkey.exe";
         String ahkFilePath = System.getProperty("user.dir") + "\\src\\test\\resources\\send_text.ahk";
 
-        if (!text.isEmpty() & !TypeFromSpeech.isPause) {
+        if (!text.isEmpty() & !_TypeFromSpeech.isPause) {
 
             try {
                 ProcessBuilder pb = new ProcessBuilder(autoHotKeyPath, ahkFilePath, text);

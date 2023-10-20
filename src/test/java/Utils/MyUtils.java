@@ -154,9 +154,6 @@ public class MyUtils {
         actions.sendKeys(element,value).perform();
     }
 
-    public static String getOrderNo(String text){
-        return text.substring((text.indexOf("#"))+1, (text.indexOf("#"))+18);
-    }
     public static boolean isAnyStringInText(String text, String... stringsToCheck) {
         for (String str : stringsToCheck) {
             if (text.contains(str)) {
