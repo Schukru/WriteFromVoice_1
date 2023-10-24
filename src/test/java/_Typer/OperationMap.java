@@ -8,11 +8,12 @@ public class OperationMap {
     private static boolean isAddBefore;
     private static boolean isAddAfter;
     private static boolean isUpTomorrow;
+    private static boolean isUpFull;
 
     public OperationMap() {
     }
 
-    public OperationMap(int iForward, String comStr, boolean isSpecial, boolean isUpperCase, boolean isAddBefore, boolean isAddAfter, boolean isUpTomorrow) {
+    public OperationMap(int iForward, String comStr, boolean isSpecial, boolean isUpperCase, boolean isAddBefore, boolean isAddAfter, boolean isUpTomorrow, boolean isUpFull) {
             this.iForward = iForward;
             this.comStr = comStr;
             this.isSpecial = isSpecial;
@@ -20,6 +21,7 @@ public class OperationMap {
             this.isAddBefore = isAddBefore;
             this.isAddAfter = isAddAfter;
             this.isUpTomorrow = isUpTomorrow;
+            this.isUpFull = isUpFull;
     }
 
     public void setiForward(int iForward) {
@@ -42,6 +44,7 @@ public class OperationMap {
     public void setIsUpTomorrow(boolean isUpTomorrow) {
         this.isUpTomorrow = isUpTomorrow;
     }
+    public void setIsUpFull(boolean isUpFull) {this.isUpFull = isUpFull; }
     public int getiForward() {
         return iForward;
     }
@@ -62,6 +65,9 @@ public class OperationMap {
     }
     public boolean GetIsUpTomorrow() {
         return isUpTomorrow;
+    }
+    public boolean GetIsUpFull() {
+        return isUpFull;
     }
 
 }

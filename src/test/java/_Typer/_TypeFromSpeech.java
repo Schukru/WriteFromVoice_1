@@ -16,8 +16,9 @@ public class _TypeFromSpeech {
     private static boolean isAddBefore = false;
     private static boolean isAddAfter = true;
     private static boolean isUpTomorrow = false;
+    private static boolean isUpFull = false;
     private static int n;
-    private static OperationMap opM = new OperationMap(iForward, commandStr, isSpecial, isUpperCase, isAddBefore, isAddAfter, isUpTomorrow);
+    private static OperationMap opM = new OperationMap(iForward, commandStr, isSpecial, isUpperCase, isAddBefore, isAddAfter, isUpTomorrow, isUpFull);
 
 
     public static void main(String[] args) {

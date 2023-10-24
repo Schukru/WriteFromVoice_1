@@ -20,6 +20,7 @@ public class SpeechTexter {
     static boolean isAddBefore = false;
     static boolean isAddAfter = true;
     static boolean isUpTomorrow = false;
+    static boolean isUpFull = false;
     private static SpeechTextPage sp = new SpeechTextPage();
     private static String longText;
     private static Robot robot;
@@ -74,6 +75,7 @@ public class SpeechTexter {
         isAddBefore = opM.GetIsAddBefore();
         isAddAfter = opM.GetIsAddAfter();
         isUpTomorrow = opM.GetIsUpTomorrow();
+        isUpFull = opM.GetIsUpFull();
 
         if (isUpTomorrow) {
             isUpperCase = true;
@@ -86,6 +88,9 @@ public class SpeechTexter {
             case "nokta" :
             case "." :
                 commandStr= "."; iForward = 1; isUpTomorrow = true; isAddBefore = false; break;
+            case "virgül" :
+            case "," :
+                commandStr= ","; iForward = 1; isAddBefore = false; break;
             case "backspace":
                 commandStr= "backspace"; iForward = 1; break;
             case "space":
@@ -148,6 +153,10 @@ public class SpeechTexter {
                     commandStr = ""; iForward = 2; isUpTomorrow = true; break;
                 case "küçük harfle başla":
                     commandStr = ""; iForward = 2; isUpTomorrow = false; break;
+                case "büyük harfle yaz":
+                    commandStr = ""; iForward = 2; isUpFull = true; break;
+                case "büyük harfle yazma":
+                    commandStr = ""; iForward = 2; isUpFull = false; break;
                 case "bir geri gel":
                 case "bi geri gel":
                     commandStr = "left" ; iForward = 3; break;
@@ -204,9 +213,13 @@ public class SpeechTexter {
 
             isAddAfter = true;
 
-           if (isUpperCase & !keyboardStr.isEmpty()) {
+           if (isUpperCase & !keyboardStr.isEmpty()) {              // ilk harfi büyük başlayacaksa
                 keyboardStr = keyboardStr.substring(0, 1).toUpperCase() + keyboardStr.substring(1);
                 isUpperCase = false;
+           }
+
+           if (isUpFull){                                 // hepsi büyük harfle yazılacaksa
+                 keyboardStr = keyboardStr.toUpperCase();
            }
 
             if (isAddBefore){                     // ifadenin öncesine boşluk koy
@@ -223,6 +236,7 @@ public class SpeechTexter {
         opM.setIsAddBefore(isAddBefore);
         opM.setIsAddAfter(isAddAfter);
         opM.setIsUpTomorrow(isUpTomorrow);
+        opM.setIsUpFull(isUpFull);
 
         return opM;
     }
