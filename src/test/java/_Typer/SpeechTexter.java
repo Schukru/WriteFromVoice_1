@@ -110,6 +110,8 @@ public class SpeechTexter {
         if (kelimeler.length > i+1) {                  // iki kelimelik komutlar kontrol edilecek
 
             switch (kelimeler[i].concat(" ").concat(kelimeler[i+1])){
+                case "soru işareti" :
+                    commandStr= "?"; iForward = 1; isAddBefore = false; break;
                 case "satır sonu" :
                     commandStr= "enter"; iForward = 2; isUpTomorrow = true; break;
                 case "boşluk bırak":
@@ -133,14 +135,20 @@ public class SpeechTexter {
                 case "ileri al":
                     commandStr= "ctrl+y"; iForward = 2; break;
                 case "geri al":
-                    commandStr= "ctrl+z"; iForward = 2; break;
+                    commandStr= "ctrl+z"; iForward = 2; break; 
                 case "başa gel":
                     commandStr= "home"; iForward = 2; break;
                 case "sona git":
                     commandStr= "end"; iForward = 2; break;
-                case "programı durdur":
+                 case "programı durdur":
+                    commandStr = ""; iForward = 2; _TypeFromSpeech.isPause = true; soundAlert("type");break;
+                case "yazmayı durdur":
+                case "yazdırmayı durdur":
                     commandStr = ""; iForward = 2; _TypeFromSpeech.isPause = true; soundAlert("pause");break;
                 case "programı başlat":
+                    commandStr= ""; iForward = 2; _TypeFromSpeech.isPause = false; soundAlert("start");break;
+                case "yazmaya başla":
+                case "yazdırmaya başla":
                     commandStr= ""; iForward = 2; _TypeFromSpeech.isPause = false; soundAlert("start");break;
 
             }
@@ -189,7 +197,8 @@ public class SpeechTexter {
                 case "aktif programı kapat":
                     commandStr = "alt+f4"; iForward = 3; break;
                 case "yazmaya devam et":
-                    commandStr= ""; iForward = 3; _TypeFromSpeech.isPause = false; soundAlert("start");break;
+                case "yazdırmaya devam et":
+                    commandStr= ""; iForward = 3; _TypeFromSpeech.isPause = false; soundAlert("type",3);break;
             }
         }
 
@@ -288,10 +297,10 @@ public class SpeechTexter {
                 commandKeyboard = "!{F4}"; break;
             case "equals":
                 commandKeyboard = " = "; break;
-            case "main":
-                commandKeyboard = "main{Enter}"; break;
-            case "print":
-                commandKeyboard = "soutv{Enter}"; break;
+//            case "main":
+//                commandKeyboard = "main{Enter}"; break;
+//            case "print":
+//                commandKeyboard = "soutv{Enter}"; break;
             default:
                 return commandKeyboard;
         }
@@ -333,8 +342,16 @@ public class SpeechTexter {
     }
 
 
-    public static void soundAlert(String whichVoice) {
+    public static void soundAlert(String whichVoice, int... number) {
 
+        int[] params = number;
+        int counter = params.length;
+
+        if (counter == 0){
+            counter = 1;
+        }else {
+            counter = number[0];
+        }
         String soundFilePath = System.getProperty("user.dir") + "/src/test/resources/voices/";
         String fName = "";
 
@@ -343,6 +360,7 @@ public class SpeechTexter {
             case "pause" : fName = "PauseApp.wav"; break;
             case "stop" : fName = "StopApp.wav"; break;
             case "gpt" : fName = "ChatGPT.wav"; break;
+            case "type" : fName = "typewriter_click.wav"; break;
             default: fName = "typewriter_click.wav";
         }
         soundFilePath += fName;
@@ -351,7 +369,11 @@ public class SpeechTexter {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-            clip.start();
+            for (int i=0; i<counter; i++){
+                clip.setFramePosition(0);
+                clip.start();
+                MyUtils.waitFor(200);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

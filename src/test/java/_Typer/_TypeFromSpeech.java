@@ -29,6 +29,7 @@ public class _TypeFromSpeech {
         SpeechTexter.chooseCountry();
         SpeechTexter.unCheckedBox();
         SpeechTexter.importTheCommandsFile();
+        MyUtils.waitUntilInvisible(sp.getElement("importPopUp"));
 
         SpeechTexter.startRecord();
         SpeechTexter.soundAlert("start");

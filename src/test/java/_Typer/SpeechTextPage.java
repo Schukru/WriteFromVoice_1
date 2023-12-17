@@ -10,28 +10,30 @@ public class SpeechTextPage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy(css="button[id='mic']")
+    @FindBy(css="div[id='mic']")
     private WebElement startStopButton;
-    @FindBy(css="button[id='b-copy']']")
+    @FindBy(css="div[id='b-copy-all']")
     private WebElement copyButton;
-    @FindBy(css = "button[id='b-delete']")
+    @FindBy(css = "div[id='b-note-new']")
     private WebElement clearTextButton;
-    @FindBy(css = "button[id='b-import-cc']")
+    @FindBy(css = "div[id='b-cm-import']")
     private WebElement importButton;
-    @FindBy(css = "button[id='b-settings']")
+    @FindBy(css = "div[id='b-settings']")
     private WebElement settingsButton;
-    @FindBy(css = "input[id='settings-cap-first-letter']")
+    @FindBy(css = "div[id='capitalizeFirstLetterNewSentence']")
     private WebElement firstLetterCheckBox;
-    @FindBy(css = "button[id='settings-b-close']")
+    @FindBy(xpath = "//div[@id='menu-settings']//div[@class='button close']")
     private WebElement settingsCloseButton;
-    @FindBy(css = "div[id='note']")
+    @FindBy(css = "div[id='textEditor']")
     private WebElement writtenText;
-    @FindBy(css = "div[id='lang-name-display']")
+    @FindBy(css = "div[id='language-name-display']")
     private WebElement chooseCountryButton;
-    @FindBy(css = "div[class='lang-option'][data-country='Turkey']")
+    @FindBy(xpath = "//div[.='Türkçe (Türkiye)']")
     private WebElement chooseTurkeyLine;
-    @FindBy(css = "button[id='b-edit-cc']")
+    @FindBy(css = "div[id='b-cm-edit-commands']")
     private WebElement editButton;
+    @FindBy(css = "div[id='snackbar']")
+    private WebElement importPopUp;
 
     private WebElement myElement;
 
@@ -48,6 +50,7 @@ public class SpeechTextPage {
             case "settingsButton" : myElement = settingsButton; break;
             case "settingsCloseButton" : myElement = settingsCloseButton; break;
             case "firstLetterCheckBox" : myElement = firstLetterCheckBox; break;
+            case "importPopUp" : myElement = importPopUp; break;
 
         }
         return myElement;
