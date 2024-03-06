@@ -79,7 +79,7 @@ public class _TypeFromSpeech {
             try {
                 ProcessBuilder pb = new ProcessBuilder(autoHotKeyPath, ahkFilePath, text);
                 Process process = pb.start();
-                int exitCode = process.waitFor();  //sıralamadaki bozukluğu önlemek için bekleme
+                process.waitFor();  // betik işlemi tamamlayana kadar bekle
 
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
