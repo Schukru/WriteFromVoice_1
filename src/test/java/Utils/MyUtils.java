@@ -18,9 +18,9 @@ public class MyUtils {
     private static Actions actions = new Actions(Driver.getDriver());
 
 
-    public static void clickFunction(WebElement element){
+    public static void clickFunctionWithAction(WebElement element){
         waitUntilClickable(element);
-        element.click();
+        clickWithActions(element);
     }
 
     public static void sendKeysFunction(WebElement element, String value) {

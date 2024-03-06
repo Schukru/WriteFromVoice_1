@@ -3,7 +3,10 @@ package _Typer;
 import Utils.Driver;
 import Utils.MyUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class _TypeFromSpeech {
 
@@ -68,20 +71,19 @@ public class _TypeFromSpeech {
     }
 
     private static void putIntoWords(String text) {
-
         String autoHotKeyPath = "C:\\Program Files\\AutoHotkey\\v2\\autohotkey.exe";
         String ahkFilePath = System.getProperty("user.dir") + "\\src\\test\\resources\\send_text.ahk";
 
-        if (!text.isEmpty() & !_TypeFromSpeech.isPause) {
+        if (!text.isEmpty() && !_TypeFromSpeech.isPause) {
 
             try {
                 ProcessBuilder pb = new ProcessBuilder(autoHotKeyPath, ahkFilePath, text);
-                pb.start();
+                Process process = pb.start();
+                int exitCode = process.waitFor();  //sıralamadaki bozukluğu önlemek için bekleme
 
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
 }

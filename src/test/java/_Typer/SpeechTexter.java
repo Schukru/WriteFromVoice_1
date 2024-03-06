@@ -37,14 +37,14 @@ public class SpeechTexter {
     }
 
     public static void chooseCountry(){
-        MyUtils.clickFunction(sp.getElement("chooseCountryButton"));
-        MyUtils.clickFunction(sp.getElement("chooseTurkeyLine"));
+        MyUtils.clickFunctionWithAction(sp.getElement("chooseCountryButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("chooseTurkeyLine"));
     }
 
     public static void unCheckedBox(){
-        MyUtils.clickFunction(sp.getElement("settingsButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("settingsButton"));
         MyUtils.clickWithActions(sp.getElement("firstLetterCheckBox"));
-        MyUtils.clickFunction(sp.getElement("settingsCloseButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("settingsCloseButton"));
     }
 
     public static String getLongText() {
@@ -54,16 +54,16 @@ public class SpeechTexter {
 
     public static void clearPage(String longText){
         if (!longText.isEmpty()) {
-            MyUtils.clickFunction(sp.getElement("clearTextButton"));
+            MyUtils.clickFunctionWithAction(sp.getElement("clearTextButton"));
         }
     }
 
     public static void startRecord(){
-        MyUtils.clickFunction(sp.getElement("startStopButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("startStopButton"));
     }
 
     public static void stopRecord(){
-        MyUtils.clickFunction(sp.getElement("startStopButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("startStopButton"));
     }
 
     public static OperationMap operationKey(String[] kelimeler, OperationMap opM, int i){
@@ -311,9 +311,9 @@ public class SpeechTexter {
 
     public static void importTheCommandsFile()  {
 
-        MyUtils.clickFunction(sp.getElement("editButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("editButton"));
 
-        MyUtils.clickFunction(sp.getElement("importButton"));
+        MyUtils.clickFunctionWithAction(sp.getElement("importButton"));
         MyUtils.waitFor(1000);
 
         String filePath = System.getProperty("user.dir") +
