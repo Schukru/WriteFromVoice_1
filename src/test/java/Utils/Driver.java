@@ -1,6 +1,5 @@
 package Utils;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -81,34 +80,32 @@ public class Driver {
                 switch (browserType) {
 
                     case "firefox":
-                        WebDriverManager.firefoxdriver().setup();
                         threadDriver.set(new FirefoxDriver(firefoxOptions));
                         break;
 
                     case "ie":
                         if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                             throw new WebDriverException("Your OS doesn't support Internet Explorer");
-                        WebDriverManager.iedriver().setup();
                         threadDriver.set(new InternetExplorerDriver());
                         break;
 
                     case "edge":
                         if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                             throw new WebDriverException("Your OS doesn't support Edge");
-                        WebDriverManager.edgedriver().setup();
                         threadDriver.set(new EdgeDriver(edgeOptions));
                         break;
 
                     case "safari":
                         if (!System.getProperty("os.name").toLowerCase().contains("mac"))
                             throw new WebDriverException("Your OS doesn't support Safari");
-                        WebDriverManager.getInstance(SafariDriver.class).setup();
+//                        WebDriverManager.getInstance(SafariDriver.class).setup();
                         threadDriver.set(new SafariDriver());
                         break;
 
                     default:               // Diğer tüm durumlarda chrome geçerli sayıldı
-                        WebDriverManager.chromedriver().setup();
                         threadDriver.set(new ChromeDriver(chromeOptions));
+                        break;
+//                        WebDriverManager.chromedriver().setup();
                 }
 
                 if (isFullScreen) {
