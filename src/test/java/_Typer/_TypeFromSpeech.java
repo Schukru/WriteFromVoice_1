@@ -3,10 +3,7 @@ package _Typer;
 import Utils.Driver;
 import Utils.MyUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class _TypeFromSpeech {
 
